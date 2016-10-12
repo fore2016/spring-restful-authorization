@@ -1069,17 +1069,60 @@ public class DateFormatUtil {
 	 * @param value
 	 * add(new Date(),"yyyy-MM-dd HH:mm:ss",-1 * 1 * 60 * 60 * 1000);
 	 */
-	public static void add(Date date,String format,long value){
+	public static String add(Date date,String format,long value){
 		   SimpleDateFormat df=new SimpleDateFormat(format);   
-		   System.out.println("起始日期："+df.format(date));   
-//		   System.out.println("两天前的日期：" + df.format(new Date(d.getTime() - 2 * 24 * 60 * 60 * 1000)));  
-//		   System.out.println("三天后的日期：" + df.format(new Date(d.getTime() + 3 * 24 * 60 * 60 * 1000)));
 		   long newValue=date.getTime()+value;
-		   System.out.println("变化后的日期：" + df.format(new Date(newValue)));
+		   return df.format(new Date(newValue));
+	}
+	
+	public static long addLong(Date date,String format,long value){
+		   SimpleDateFormat df=new SimpleDateFormat(format);   
+		   long newValue=date.getTime()+value;
+		   return newValue;
+	}
+	
+	public static String parseMillisecone(long millisecond) {
+		String time = null;
+		try {
+				long yushu_day = millisecond % (1000 * 60 * 60 * 24);
+				long yushu_hour = (millisecond % (1000 * 60 * 60 * 24))
+						% (1000 * 60 * 60);
+				long yushu_minute = millisecond % (1000 * 60 * 60 * 24)
+						% (1000 * 60 * 60) % (1000 * 60);
+				long yushu_second = millisecond % (1000 * 60 * 60 * 24)
+						% (1000 * 60 * 60) % (1000 * 60) % 1000;
+				if (yushu_day == 0) {
+					return (millisecond / (1000 * 60 * 60 * 24)) + "天";
+				} else {
+					if (yushu_hour == 0) {
+						return (millisecond / (1000 * 60 * 60 * 24)) + "天"
+								+ (yushu_day / (1000 * 60 * 60)) + "时";
+					} else {
+						if (yushu_minute == 0) {
+							return (millisecond / (1000 * 60 * 60 * 24)) + "天"
+									+ (yushu_day / (1000 * 60 * 60)) + "时"
+									+ (yushu_hour / (1000 * 60)) + "分";
+						} else {
+							return (millisecond / (1000 * 60 * 60 * 24)) + "天"
+									+ (yushu_day / (1000 * 60 * 60)) + "时"
+									+ (yushu_hour / (1000 * 60)) + "分"
+									+ (yushu_minute / 1000) + "秒";
+
+						}
+
+					}
+
+				}
+
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return time;
 	}
 	
 	public static void main(String[] args) {
-		add(new Date(),"yyyy-MM-dd HH:mm:ss",-1 * 1 * 60 * 60 * 1000);
-
+		System.out.println(parseMillisecone(436765000L));;
+        System.out.println(436766*1000);
 	}
 }
